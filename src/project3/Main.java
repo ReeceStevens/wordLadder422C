@@ -22,25 +22,11 @@ public class Main {
 		
 		//Scanner kb = new Scanner(System.in);
 
-		// TODO methods to read in words, output ladder
-	
-
-		// TESTING ONLY!
-		//
-		String a1 = "stone";
-		String a2 = "atone";
-		System.out.println(diffByOne(a1,a2));
-
-
 		String a = "stone";
 		String b = "money";
 		ArrayList<String> result = getWordLadder(a.toUpperCase(),b.toUpperCase());	
 		if (result == null) { System.out.println("No word ladder exists."); return; }
-		int len = result.size();
-		for (int i = len-1; i >= 0; i -= 1) {
-			System.out.println(result.get(i));
-		}
-		System.out.println("This word ladder has " + len + " rungs.");
+		System.out.println("This word ladder has " + result.size() + " rungs.");
 
 	}
 
@@ -72,55 +58,71 @@ public class Main {
 		ArrayList<String> connections = new ArrayList<String>();
 		for (String s : dictionary) {
 			// If we haven't already visited it and it's valid, add it to connections
-			if (diffByOne(input, s)) { connections.add(s);}
+			if (diffByOne(input, s))  { connections.add(s);}
 		}
 		return connections;
 	}
 
 	public static ArrayList<String> wordLadder(String start, String end, Set<String> dictionary) {
+		ArrayList<String> connections = findConnections(start, dictionary);
 
-		// Base case: we are already at the result.
-		if (start.equals(end)) {
+		// Base Case 1: Word is directly connected to end.
+		if (connections.contains(end)) {
 			ArrayList<String> final_path = new ArrayList<String>();
-			final_path.add(end);
+			final_path.add(start);
 			return final_path;
 		}
 
-		// Other base case: we can't find any path to result.
-		ArrayList<String> connections = findConnections(start, dictionary);
-		if (connections.isEmpty()) { return null; }
-
-		// All the words we've visited are no longer valid words.
-		dictionary.removeAll(connections);
-
-		for (String s : connections) {
-			ArrayList<String> path = wordLadder(s,end,dictionary);
-			// If the path isn't null, we have a winner!
-			if (path != null) {
-				path.add(s);
-				return path;
-			}
-			// Otherwise, tell the caller that this path is a dead end.
-			else {
-				continue;
-			}
+		// Base Case 2: We can't find any path to result.
+		if (connections.isEmpty()) { 
+				return null; 
 		}
 
-		return null;
-			
+		dictionary.removeAll(connections);
+		// General Case
+		int min_len = dictionary.size();
+		String min_string = null;
+		ArrayList<String> min_path = new ArrayList<String>();
+		min_path = null;
+		for (String s : connections) {
+
+			ArrayList<String> path = wordLadder(s,end,dictionary);
+		
+			if (path != null) {	
+				if (path.size() < min_len) {
+					min_path = path;
+					min_len = path.size();
+					min_string = s;
+				}
+			}
+			else { continue; }
+		}
+
+		// Mark all paths as invalid except the shortest.
+		if (min_path == null) { return null; }
+		dictionary.add(min_string);
+		min_path.add(start);
+		return min_path;
 	}
 
 	public static ArrayList<String> getWordLadder(String start, String end) {
 		
 		Set<String> dict = makeDictionary();
+		System.out.println("Dictionary is of size " + dict.size() );
+		start = start.toUpperCase();
+		end = end.toUpperCase();
 		ArrayList<String> path = new ArrayList<String>();
 		path.add(start);
-		ArrayList<String> visited = new ArrayList<String>();
+		Set<String> visited = new HashSet<String>();
 		visited.add(start);
-		dict.remove(start);
 
-		ArrayList<String> result = wordLadder(start, end, dict); // replace this line later with real return
+		ArrayList<String> result = wordLadder(start, end, dict); 
 		if (result == null) { System.out.println("No word ladder found."); }
+		else {
+			for (int i = result.size()-1; i >= 0; i -= 1) {
+				System.out.println(result.get(i));
+			}
+		}
 		return result;
 	}
 	
