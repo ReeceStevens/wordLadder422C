@@ -19,36 +19,21 @@ import java.io.*;
 public class Main {
 
 	public static void main(String[] args) {
-		//~~~~~ MY CODE START (cause Idk how to add it into yours without messing up your testing)
-		//		System.out.println("tester");
 		Scanner kb = new Scanner(System.in);
-//		System.out.println("tester1");
-		String input = kb.next();
+		//String input = kb.next();
 		String QUIT = "/quit";
-		// TODO methods to read in words, output ladder
-//		if (input.compareTo(QUIT) == 0) {
-//			kb.close();
-//			return;
-//		}
 		
-		while (QUIT.compareTo(input) != 0) {
-			//String input = kb.next();
+		while (true) {
+			String input = kb.next();
+			if (QUIT.compareTo(input) == 0) { break; } 
 			// any other /command print: invalid command /command and also /quit command
 			if (input.charAt(0) == '/') {
-			//	if (input.compareTo(QUIT) == 0) {
-			//		kb.close();
-			//		return;
-			//	} else {
 					System.out.println("invalid command " + input);
 					input = kb.next();
-			//	}
 			}
 			
 			// a <N>-rung word ladder exists between <start> and <finish>
-				// have some sort of counter when we search for the word
-	//		System.out.println(input);
-	//		System.out.println(inputEnd);
-				// call some function SEARCH
+			// have some sort of counter when we search for the word
 			else {	
 				String inputEnd = kb.next(); // now we have the two words...
 				if (getWordLadder(input, inputEnd) == null){
@@ -56,8 +41,8 @@ public class Main {
 				} else {
 					ArrayList<String> myList = getWordLadder(input, inputEnd);
 					System.out.println("an " + myList.size() + "-rung word ladder exists between " + input + " and " + inputEnd);
-					for (int i = 0; i < myList.size(); i++){
-						System.out.println("\t" + myList.get(i) + "\n");
+					for (int i = myList.size()-1; i >= 0; i -= 1) {
+						System.out.println(myList.get(i));
 					}
 				}
 			}
@@ -69,14 +54,12 @@ public class Main {
 	}
 		//~~~~~ MY CODE END
 		//Scanner kb = new Scanner(System.in);
-
+/*
 		String a = "stone";
 		String b = "money";
 		ArrayList<String> result = getWordLadder(a.toUpperCase(),b.toUpperCase());	
 		if (result == null) { System.out.println("No word ladder exists."); return; }
-		System.out.println("This word ladder has " + result.size() + " rungs.");
-
-	}
+		System.out.println("This word ladder has " + result.size() + " rungs."); */
 
 	/*
 	 * diffByOne(a,b)
@@ -156,7 +139,6 @@ public class Main {
 	public static ArrayList<String> getWordLadder(String start, String end) {
 		
 		Set<String> dict = makeDictionary();
-		System.out.println("Dictionary is of size " + dict.size() );
 		start = start.toUpperCase();
 		end = end.toUpperCase();
 		ArrayList<String> path = new ArrayList<String>();
@@ -165,12 +147,6 @@ public class Main {
 		visited.add(start);
 
 		ArrayList<String> result = wordLadder(start, end, dict); 
-		if (result == null) { System.out.println("No word ladder found."); }
-		else {
-			for (int i = result.size()-1; i >= 0; i -= 1) {
-				System.out.println(result.get(i));
-			}
-		}
 		return result;
 	}
 	
