@@ -19,7 +19,55 @@ import java.io.*;
 public class Main {
 
 	public static void main(String[] args) {
+		//~~~~~ MY CODE START (cause Idk how to add it into yours without messing up your testing)
+		//		System.out.println("tester");
+		Scanner kb = new Scanner(System.in);
+//		System.out.println("tester1");
+		String input = kb.next();
+		String QUIT = "/quit";
+		// TODO methods to read in words, output ladder
+//		if (input.compareTo(QUIT) == 0) {
+//			kb.close();
+//			return;
+//		}
 		
+		while (QUIT.compareTo(input) != 0) {
+			//String input = kb.next();
+			// any other /command print: invalid command /command and also /quit command
+			if (input.charAt(0) == '/') {
+			//	if (input.compareTo(QUIT) == 0) {
+			//		kb.close();
+			//		return;
+			//	} else {
+					System.out.println("invalid command " + input);
+					input = kb.next();
+			//	}
+			}
+			
+			// a <N>-rung word ladder exists between <start> and <finish>
+				// have some sort of counter when we search for the word
+	//		System.out.println(input);
+	//		System.out.println(inputEnd);
+				// call some function SEARCH
+			else {	
+				String inputEnd = kb.next(); // now we have the two words...
+				if (getWordLadder(input, inputEnd) == null){
+					System.out.println("no word ladder can be found between " + input + " and " + inputEnd + ".");
+				} else {
+					ArrayList<String> myList = getWordLadder(input, inputEnd);
+					System.out.println("an " + myList.size() + "-rung word ladder exists between " + input + " and " + inputEnd);
+					for (int i = 0; i < myList.size(); i++){
+						System.out.println("\t" + myList.get(i) + "\n");
+					}
+				}
+			}
+			// no word ladder can be found between <start> and <finish>.
+		}
+		kb.close();
+		return;
+		
+	}
+		//~~~~~ MY CODE END
 		//Scanner kb = new Scanner(System.in);
 
 		// TODO methods to read in words, output ladder
