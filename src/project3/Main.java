@@ -29,20 +29,20 @@ public class Main {
 			// any other /command print: invalid command /command and also /quit command
 			if (input.charAt(0) == '/') {
 					System.out.println("invalid command " + input);
-					input = kb.next();
+					continue;
 			}
 			
 			// a <N>-rung word ladder exists between <start> and <finish>
 			// have some sort of counter when we search for the word
 			else {	
 				String inputEnd = kb.next(); // now we have the two words...
-				if (getWordLadder(input, inputEnd) == null){
+				if (getWordLadder(input, inputEnd).size() == 0){
 					System.out.println("no word ladder can be found between " + input + " and " + inputEnd + ".");
 				} else {
 					ArrayList<String> myList = getWordLadder(input, inputEnd);
 					System.out.println("a " + myList.size() + "-rung word ladder exists between " + input + " and " + inputEnd);
-					for (int i = myList.size()-1; i >= 0; i -= 1) {
-						System.out.println(myList.get(i));
+					for (int i = myList.size()-2; i >= 0; i -= 1) {
+						System.out.println(myList.get(i).toLowerCase());
 					}
 				}
 			}
@@ -137,16 +137,16 @@ public class Main {
 	}
 
 	public static ArrayList<String> getWordLadder(String start, String end) {
-		
+		ArrayList<String> ret_val = new ArrayList<String>();	
+
+		if (start.length() != end.length()) { return ret_val; }	
 		Set<String> dict = makeDictionary();
+
 		start = start.toUpperCase();
 		end = end.toUpperCase();
-		ArrayList<String> path = new ArrayList<String>();
-		path.add(start);
-		Set<String> visited = new HashSet<String>();
-		visited.add(start);
 
 		ArrayList<String> result = wordLadder(start, end, dict); 
+		if (result == null) { return ret_val; }
 		return result;
 	}
 	
