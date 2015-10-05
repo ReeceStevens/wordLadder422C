@@ -42,8 +42,8 @@ public class Main {
 					ArrayList<String> myList = getWordLadder(input, inputEnd);
 					System.out.println("a " + (myList.size()-2) + "-rung word ladder exists between " + input + " and " + inputEnd);
 					// size() - 2 because the word ladder size does not count start and end but the ArrayList will print and count them
-					for (int i = myList.size()-2; i >= 0; i -= 1) { // print ArrayList in lower case
-						System.out.println(myList.get(i).toLowerCase());
+					for (String s : myList) { 
+						System.out.println(s);
 					}
 				}
 			}
@@ -101,6 +101,7 @@ public class Main {
 		// Base Case 1: Word is directly connected to end.
 		if (connections.contains(end)) {
 			ArrayList<String> final_path = new ArrayList<String>();
+			final_path.add(end);
 			final_path.add(start);
 			return final_path;
 		}
@@ -148,7 +149,12 @@ public class Main {
 
 		ArrayList<String> result = wordLadder(start, end, dict); 
 		if (result == null) { return ret_val; }
-		return result;
+		ArrayList<String> flipped_result = new ArrayList<String>();
+		flipped_result.add(start.toLowerCase());
+		for (int i = result.size()-2; i >= 0; i -= 1) { // print ArrayList in lower case
+			flipped_result.add(result.get(i).toLowerCase());	
+		}
+		return flipped_result;
 	}
 	
 	public static Set<String>  makeDictionary () {
