@@ -40,7 +40,7 @@ public class Main {
 					System.out.println("no word ladder can be found between " + input + " and " + inputEnd + ".");
 				} else {
 					ArrayList<String> myList = getWordLadder(input, inputEnd);
-					System.out.println("a " + myList.size() + "-rung word ladder exists between " + input + " and " + inputEnd);
+					System.out.println("a " + (myList.size()-2) + "-rung word ladder exists between " + input + " and " + inputEnd);
 					for (int i = myList.size()-2; i >= 0; i -= 1) {
 						System.out.println(myList.get(i).toLowerCase());
 					}
