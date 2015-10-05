@@ -3,10 +3,10 @@
  * Replace <...> with your actual data.
  * Reece Stevens
  * rgs835
- * <Student1 5-digit Unique No.>
- * <Student2 Name>
- * <Student2 EID>
- * <Student2 5-digit Unique No.>
+ * <16340>
+ * <Stephen Tran>
+ * <set896>
+ * <16340>
  * Slip days used: <0>
  * Fall 2015
  */
