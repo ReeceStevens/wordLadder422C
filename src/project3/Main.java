@@ -21,34 +21,35 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner kb = new Scanner(System.in);
 		//String input = kb.next();
-		String QUIT = "/quit";
+		String QUIT = "/quit"; // to compare to the /quit close command
 		
-		while (true) {
-			String input = kb.next();
-			if (QUIT.compareTo(input) == 0) { break; } 
+		while (true) { // continues until /quit
+			String input = kb.next(); // prompts user input
+			if (QUIT.compareTo(input) == 0) { break; } // close scanner; terminate
 			// any other /command print: invalid command /command and also /quit command
 			if (input.charAt(0) == '/') {
 					System.out.println("invalid command " + input);
 					continue;
 			}
 			
-			// a <N>-rung word ladder exists between <start> and <finish>
-			// have some sort of counter when we search for the word
+			// a <N>-rung word ladder exists between <start> and <finish> with N being size() - 2
+			// (word ladder size does not include start and end)
 			else {	
 				String inputEnd = kb.next(); // now we have the two words...
-				if (getWordLadder(input, inputEnd).size() == 0){
+				if (getWordLadder(input, inputEnd).size() == 0){ // no word ladder can be found between <start> and <finish>.
 					System.out.println("no word ladder can be found between " + input + " and " + inputEnd + ".");
 				} else {
 					ArrayList<String> myList = getWordLadder(input, inputEnd);
 					System.out.println("a " + (myList.size()-2) + "-rung word ladder exists between " + input + " and " + inputEnd);
-					for (int i = myList.size()-2; i >= 0; i -= 1) {
+					// size() - 2 because the word ladder size does not count start and end but the ArrayList will print and count them
+					for (int i = myList.size()-2; i >= 0; i -= 1) { // print ArrayList in lower case
 						System.out.println(myList.get(i).toLowerCase());
 					}
 				}
 			}
-			// no word ladder can be found between <start> and <finish>.
+	
 		}
-		kb.close();
+		kb.close(); // close after command /quit
 		return;
 		
 	}
