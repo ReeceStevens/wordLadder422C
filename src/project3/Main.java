@@ -175,14 +175,19 @@ public class Main {
 	public static ArrayList<String> getWordLadder(String start, String end) {
 		ArrayList<String> ret_val = new ArrayList<String>();	
 
+		// Catch if words are not of same length
 		if (start.length() != end.length()) { return ret_val; }	
 		Set<String> dict = makeDictionary();
 
+		
 		start = start.toUpperCase();
 		end = end.toUpperCase();
 
 		ArrayList<String> result = wordLadder(start, end, dict); 
 		if (result == null) { return ret_val; }
+		
+		// Catch if starting and ending word are the same
+		if (start.equals(end)) { return ret_val; }
 		ArrayList<String> flipped_result = new ArrayList<String>();
 		flipped_result.add(start.toLowerCase());
 		for (int i = result.size()-2; i >= 0; i -= 1) { // print ArrayList in lower case
