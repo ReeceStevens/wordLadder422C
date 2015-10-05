@@ -20,7 +20,6 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner kb = new Scanner(System.in);
-		//String input = kb.next();
 		String QUIT = "/quit"; // to compare to the /quit close command
 		
 		while (true) { // continues until /quit
@@ -53,16 +52,8 @@ public class Main {
 		return;
 		
 	}
-		//~~~~~ MY CODE END
-		//Scanner kb = new Scanner(System.in);
-/*
-		String a = "stone";
-		String b = "money";
-		ArrayList<String> result = getWordLadder(a.toUpperCase(),b.toUpperCase());	
-		if (result == null) { System.out.println("No word ladder exists."); return; }
-		System.out.println("This word ladder has " + result.size() + " rungs."); */
 
-	/*
+    /*
 	 * diffByOne(a,b)
 	 * Determine if two strings only differ by one letter.
 	 * Assumes that strings are of the same length.
@@ -86,6 +77,18 @@ public class Main {
 		return true;
 	}
 
+    /*
+     * findConnections(input, dictionary)
+     *
+     * Finds all valid words that are a one-letter
+     * permutation from the input and returns them
+     * in an ArrayList.
+     *
+     * @param   input   The word to be permutated
+     * @param   dictionary  The list of all valid words
+     *
+     * @return  All one-letter permuations of input into valid words
+     */
 	public static ArrayList<String> findConnections(String input, Set<String> dictionary) {
 		ArrayList<String> connections = new ArrayList<String>();
 		for (String s : dictionary) {
@@ -95,6 +98,18 @@ public class Main {
 		return connections;
 	}
 
+
+    /*
+     * wordLadder(start,end,dictionary)
+     *
+     * A recursive function that finds a word ladder between
+     * start and end, based on the valid words in dictionary.
+     *
+     * @param   start   The beginning of the word ladder
+     * @param   end     The end of the word ladder
+     * @param   dictionary  The list of all valid words
+     *
+     */
 	public static ArrayList<String> wordLadder(String start, String end, Set<String> dictionary) {
 		ArrayList<String> connections = findConnections(start, dictionary);
 
@@ -111,8 +126,13 @@ public class Main {
 				return null; 
 		}
 
+        // Mark nodes as visited by removing them from the list
+        // of valid words.
 		dictionary.removeAll(connections);
-		// General Case
+
+		// General Case:
+        // Pick the shortest word ladder of this words's connections
+        // and continue it by appending start.
 		int min_len = dictionary.size();
 		String min_string = null;
 		ArrayList<String> min_path = new ArrayList<String>();
@@ -120,7 +140,7 @@ public class Main {
 		for (String s : connections) {
 
 			ArrayList<String> path = wordLadder(s,end,dictionary);
-		
+	        // If this is a path to the word, check how long it is.	
 			if (path != null) {	
 				if (path.size() < min_len) {
 					min_path = path;
@@ -131,13 +151,27 @@ public class Main {
 			else { continue; }
 		}
 
-		// Mark all paths as invalid except the shortest.
+        // If no paths were found, signal back with null
 		if (min_path == null) { return null; }
+
+        // Otherwise, add the smallest route back so as to 
+        // allow doubling back on its trail.
 		dictionary.add(min_string);
 		min_path.add(start);
 		return min_path;
 	}
 
+    /*
+     * getWordLadder(start,end)
+     *
+     * A function that determines the word ladder between start and end. 
+     * Prepares the dictionary and produces a final output array.
+     *
+     * @param   start   The word at the start of the ladder
+     * @param   end     the word at the end of the ladder
+     *
+     * @return  An ArrayList containing the word ladder, ordered from first to last.
+     */
 	public static ArrayList<String> getWordLadder(String start, String end) {
 		ArrayList<String> ret_val = new ArrayList<String>();	
 
@@ -157,7 +191,16 @@ public class Main {
 		return flipped_result;
 	}
 	
-	public static Set<String>  makeDictionary () {
+    /*
+     * makeDictionary()
+     *
+     * Imports words from a text file and stores them as a 
+     * HashSet.
+     *
+     * @return  Set to contain the words in the dictionary.
+     *
+     */
+    public static Set<String>  makeDictionary () {
 		Set<String> words = new HashSet<String>();
 		Scanner infile = null;
 		try {
